@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 import org.onesocialweb.model.atom.AtomFactory;
+import org.onesocialweb.model.atom.AtomFeed;
 import org.onesocialweb.model.atom.DefaultAtomFactory;
 import org.onesocialweb.xml.xpp.imp.DefaultXppActivityReader;
 import org.xmlpull.v1.XmlPullParser;
@@ -33,15 +34,15 @@ public class XppActivityReaderTest {
 	@Test
 	public void testParse() {
 
-        ActivityEntry entry = null;
+        AtomFeed feed = null;
 		try {
 			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             factory.setNamespaceAware(true);
             XmlPullParser xpp = factory.newPullParser();
-            xpp.setInput(getClass().getClassLoader().getResourceAsStream("activity-entry.xml"), "UTF-8");
+            xpp.setInput(getClass().getClassLoader().getResourceAsStream("activity-feed.xml"), "UTF-8");
             CustomXppActivityReader reader = new CustomXppActivityReader();
             xpp.next();
-            entry = reader.parse(xpp);
+            feed = reader.parse(xpp);
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -49,8 +50,8 @@ public class XppActivityReaderTest {
 			e.printStackTrace();
 		}
 		
-		assertNotNull(entry);
-		System.out.println("Entry:" + entry);
+		assertNotNull(feed);
+		System.out.println("Feed:" + feed);
 	}
 	
 	private class CustomXppActivityReader extends DefaultXppActivityReader {

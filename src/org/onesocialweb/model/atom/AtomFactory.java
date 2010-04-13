@@ -24,13 +24,25 @@ public abstract class AtomFactory {
 
 	public abstract AtomEntry entry();
 	
+	public abstract AtomFeed feed();
+	
 	public abstract AtomLink link();
 	
 	public abstract AtomReplyTo reply();
 	
 	public abstract AtomPerson person();
-	
+
 	public abstract AtomSource source();
+	
+	public abstract AtomGenerator generator();
+	
+	public AtomGenerator generator(String name, String uri, String version) {
+		AtomGenerator generator = generator();
+		generator.setName(name);
+		generator.setUri(uri);
+		generator.setVersion(version);
+		return generator;
+	}
 	
 	public AtomCategory category(String term, String label, String scheme) {
 		AtomCategory category = category();

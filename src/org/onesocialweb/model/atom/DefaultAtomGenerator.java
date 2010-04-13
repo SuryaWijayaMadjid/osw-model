@@ -2,15 +2,15 @@ package org.onesocialweb.model.atom;
 
 public class DefaultAtomGenerator extends DefaultAtomCommon implements AtomGenerator {
 
-	private String generator;
+	private String name;
 	
 	private String uri;
 	
 	private String version;
 	
 	@Override
-	public String getGenerator() {
-		return generator;
+	public String getName() {
+		return name;
 	}
 
 	@Override
@@ -24,8 +24,8 @@ public class DefaultAtomGenerator extends DefaultAtomCommon implements AtomGener
 	}
 
 	@Override
-	public boolean hasGenerator() {
-		return generator != null;
+	public boolean hasName() {
+		return name != null;
 	}
 
 	@Override
@@ -39,8 +39,8 @@ public class DefaultAtomGenerator extends DefaultAtomCommon implements AtomGener
 	}
 
 	@Override
-	public void setGenerator(String generator) {
-		this.generator = generator;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
@@ -57,8 +57,8 @@ public class DefaultAtomGenerator extends DefaultAtomCommon implements AtomGener
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[AtomPerson ");
-		if (generator != null) {
-			buffer.append("generator:" + generator + " ");
+		if (name != null) {
+			buffer.append("name:" + name + " ");
 		}
 		if (uri != null) {
 			buffer.append("uri:" + uri + " ");

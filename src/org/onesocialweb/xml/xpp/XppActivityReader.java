@@ -27,6 +27,7 @@ import org.onesocialweb.model.atom.AtomCategory;
 import org.onesocialweb.model.atom.AtomContent;
 import org.onesocialweb.model.atom.AtomEntry;
 import org.onesocialweb.model.atom.AtomFactory;
+import org.onesocialweb.model.atom.AtomFeed;
 import org.onesocialweb.model.atom.AtomLink;
 import org.onesocialweb.model.atom.AtomPerson;
 import org.onesocialweb.model.atom.AtomReplyTo;
@@ -38,7 +39,7 @@ import org.onesocialweb.xml.namespace.Onesocialweb;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-public abstract class XppActivityReader implements XppReader<ActivityEntry> {
+public abstract class XppActivityReader implements XppReader<AtomFeed> {
 
 	private final ActivityFactory activityFactory;
 	
@@ -51,9 +52,42 @@ public abstract class XppActivityReader implements XppReader<ActivityEntry> {
 		this.activityFactory = getActivityFactory();
 		this.atomFactory = getAtomFactory();
 	}
-
+	
+	
 	@Override
-	public ActivityEntry parse(XmlPullParser parser) throws XmlPullParserException, IOException {
+	public AtomFeed parse(XmlPullParser parser) throws XmlPullParserException, IOException {
+
+		// Verify that we are on the right token
+		if (!(parser.getNamespace().equals(Atom.NAMESPACE) 
+				&& parser.getName().equals(Atom.FEED_ELEMENT))) {
+			throw new XmlPullParserException("Unexpected token " + parser);
+		}
+
+		//Proceed with parsing
+		boolean done = false;
+		AtomFeed feed = atomFactory.feed();
+		
+		while (!done) {
+			int eventType = parser.next();
+			String name = parser.getName();
+			String namespace = parser.getNamespace();
+			if (eventType == XmlPullParser.START_TAG) {
+				if (namespace.equals(Atom.NAMESPACE)) {
+					if (name.equals(Atom.ENTRY_ELEMENT)) {
+						feed.addEntry(parseActivity(parser));
+					}
+				}
+			} else if (eventType == XmlPullParser.END_TAG) {
+				if (namespace.equals(Atom.NAMESPACE)
+						&& name.equals(Atom.FEED_ELEMENT)) {
+					done = true;
+				}
+			}
+		}
+		return feed;
+	}
+
+	protected ActivityEntry parseActivity(XmlPullParser parser) throws XmlPullParserException, IOException {
 
 		// Verify that we are on the right token
 		if (!(parser.getNamespace().equals(Atom.NAMESPACE) 

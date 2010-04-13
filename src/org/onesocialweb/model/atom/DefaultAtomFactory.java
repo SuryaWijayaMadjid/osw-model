@@ -32,6 +32,11 @@ public class DefaultAtomFactory extends AtomFactory {
 	public AtomEntry entry() {
 		return new DefaultAtomEntry();
 	}
+	
+	@Override
+	public AtomFeed feed() {
+		return new DefaultAtomFeed();
+	}
 
 	@Override
 	public AtomLink link() {
@@ -51,6 +56,11 @@ public class DefaultAtomFactory extends AtomFactory {
 	@Override
 	public AtomReplyTo reply() {
 		return new DefaultAtomReplyTo();
+	}
+
+	@Override
+	public AtomGenerator generator() {
+		return new DefaultAtomGenerator();
 	}
 
 }
