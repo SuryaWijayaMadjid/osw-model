@@ -16,7 +16,7 @@
  */
 package org.onesocialweb.model.atom;
 
-public interface AtomCategory {
+public interface AtomCategory extends AtomCommon {
 
 	public String getLabel();
 

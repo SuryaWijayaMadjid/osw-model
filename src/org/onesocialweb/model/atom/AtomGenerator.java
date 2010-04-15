@@ -1,6 +1,6 @@
 package org.onesocialweb.model.atom;
 
-public interface AtomGenerator {
+public interface AtomGenerator extends AtomCommon {
 
 	public String getName();
 	

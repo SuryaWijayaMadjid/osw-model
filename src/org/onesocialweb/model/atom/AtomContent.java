@@ -16,7 +16,7 @@
  */
 package org.onesocialweb.model.atom;
 
-public interface AtomContent {
+public interface AtomContent extends AtomCommon {
 
 	public String getSrc();
 

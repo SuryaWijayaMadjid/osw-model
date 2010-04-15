@@ -213,67 +213,67 @@ public class DefaultAtomFeed extends DefaultAtomCommon implements AtomFeed {
 	}
 	
 	@Override
-	public void setAuthors(List<AtomPerson> authors) {
+	public void setAuthors(final List<AtomPerson> authors) {
 		this.authors = authors;
 	}
 
 	@Override
-	public void setCategories(List<AtomCategory> categories) {
+	public void setCategories(final List<AtomCategory> categories) {
 		this.categories = categories;
 	}
 
 	@Override
-	public void setContributors(List<AtomPerson> contributors) {
+	public void setContributors(final List<AtomPerson> contributors) {
 		this.contributors = contributors;
 	}
 
 	@Override
-	public void setGenerator(AtomGenerator generator) {
+	public void setGenerator(final AtomGenerator generator) {
 		this.generator = generator;
 	}
 
 	@Override
-	public void setIcon(String icon) {
+	public void setIcon(final String icon) {
 		this.icon = icon;
 	}
 
 	@Override
-	public void setId(String id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 
 	@Override
-	public void setLinks(List<AtomLink> links) {
+	public void setLinks(final List<AtomLink> links) {
 		this.links = links;
 	}
 
 	@Override
-	public void setLogo(String logo) {
+	public void setLogo(final String logo) {
 		this.logo = logo;
 	}
 
 	@Override
-	public void setRights(String rights) {
+	public void setRights(final String rights) {
 		this.rights = rights;
 	}
 
 	@Override
-	public void setSubtitle(String subtitle) {
+	public void setSubtitle(final String subtitle) {
 		this.subtitle = subtitle;
 	}
 
 	@Override
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
 	@Override
-	public void setUpdated(Date updated) {
+	public void setUpdated(final Date updated) {
 		this.updated = updated;
 	}
 
 	@Override
-	public void setEntries(List<AtomEntry> entries) {
+	public void setEntries(final List<AtomEntry> entries) {
 		this.entries = entries;
 	}
 	

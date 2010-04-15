@@ -72,4 +72,16 @@ public class Atom {
 	
 	public static final String GENERATOR_ELEMENT = "generator";
 	
+	public static final String URI_ATTRIBUTE = "uri";
+	
+	public static final String VERSION_ATTRIBUTE = "version";
+	
+	public static final String RIGHTS_ELEMENT = "rights";
+	
+	public static final String SUBTITLE_ELEMENT = "subtitle";
+	
+	public static final String ICON_ELEMENT = "icon";
+	
+	public static final String LOGO_ELEMENT = "logo";
+	
 }

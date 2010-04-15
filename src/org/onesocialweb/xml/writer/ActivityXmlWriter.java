@@ -131,15 +131,15 @@ public class ActivityXmlWriter extends XmlWriter {
 				endClosed();
 			}
 		}
-		if (entry.hasContents()) {
-			for (AtomContent content : entry.getContents()) {
-				startTag(Atom.CONTENT_ELEMENT);
-				if (content.hasType()) attribute(Atom.TYPE_ATTRIBUTE, content.getType());
-				if (content.hasSrc()) attribute(Atom.SRC_ATTRIBUTE, content.getSrc());
-				endOpen();
-				if (content.hasValue()) buffer.append(content.getValue());
-				closeTag(Atom.CONTENT_ELEMENT);
-			}
+		if (entry.hasContent()) {
+			AtomContent content = entry.getContent() ;
+			startTag(Atom.CONTENT_ELEMENT);
+			if (content.hasType()) attribute(Atom.TYPE_ATTRIBUTE, content.getType());
+			if (content.hasSrc()) attribute(Atom.SRC_ATTRIBUTE, content.getSrc());
+			endOpen();
+			if (content.hasValue()) buffer.append(content.getValue());
+			closeTag(Atom.CONTENT_ELEMENT);
+			
 		}
 		if (entry.hasLinks()) {
 			for (AtomLink link : entry.getLinks()) {

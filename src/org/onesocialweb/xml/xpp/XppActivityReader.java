@@ -28,6 +28,7 @@ import org.onesocialweb.model.atom.AtomContent;
 import org.onesocialweb.model.atom.AtomEntry;
 import org.onesocialweb.model.atom.AtomFactory;
 import org.onesocialweb.model.atom.AtomFeed;
+import org.onesocialweb.model.atom.AtomGenerator;
 import org.onesocialweb.model.atom.AtomLink;
 import org.onesocialweb.model.atom.AtomPerson;
 import org.onesocialweb.model.atom.AtomReplyTo;
@@ -74,8 +75,9 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 			if (eventType == XmlPullParser.START_TAG) {
 				if (namespace.equals(Atom.NAMESPACE)) {
 					if (name.equals(Atom.ENTRY_ELEMENT)) {
-						feed.addEntry(parseActivity(parser));
-					}
+						feed.addEntry(parseEntry(parser));
+					} else
+						readAtomFeedMetadata(feed, parser);
 				}
 			} else if (eventType == XmlPullParser.END_TAG) {
 				if (namespace.equals(Atom.NAMESPACE)
@@ -87,7 +89,7 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		return feed;
 	}
 
-	protected ActivityEntry parseActivity(XmlPullParser parser) throws XmlPullParserException, IOException {
+	protected AtomEntry parseEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
 
 		// Verify that we are on the right token
 		if (!(parser.getNamespace().equals(Atom.NAMESPACE) 
@@ -96,8 +98,10 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		}
 
 		//Proceed with parsing
-		final ActivityEntry entry = activityFactory.entry();
+		final ActivityEntry activityEntry = activityFactory.entry();
+		final AtomEntry atomEntry = atomFactory.entry();
 		boolean done = false;
+		boolean isActivityEntry = false;
 		
 		while (!done) {
 			int eventType = parser.next();
@@ -105,18 +109,19 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 			String namespace = parser.getNamespace();
 			if (eventType == XmlPullParser.START_TAG) {
 				if (namespace.equals(Activitystreams.NAMESPACE)) {
+					isActivityEntry = true;
 					if (name.equals(Activitystreams.ACTOR_ELEMENT)) {
-						entry.setActor(parseActor(parser));
+						activityEntry.setActor(parseActor(parser));
 					} else if (name.equals(Activitystreams.VERB_ELEMENT)) {
-						entry.addVerb(activityFactory.verb(parser.nextText()));
+						activityEntry.addVerb(activityFactory.verb(parser.nextText()));
 					} else if (name.equals(Activitystreams.OBJECT_ELEMENT)) {
-						entry.addObject(parseObject(parser));
+						activityEntry.addObject(parseObject(parser));
 					}
 				} else if (namespace.equals(Atom.NAMESPACE)) {
-					readAtomEntryElement(entry, parser);
+					readAtomEntryElement(atomEntry, parser);
 				} else if (namespace.equals(Onesocialweb.NAMESPACE)) {
 					if (name.equals(Onesocialweb.ACL_RULE_ELEMENT)) {
-						entry.addAclRule(aclReader.parse(parser));
+						activityEntry.addAclRule(aclReader.parse(parser));
 					}
 				}
 			} else if (eventType == XmlPullParser.END_TAG) {
@@ -126,7 +131,12 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 				}
 			}
 		}
-		return entry;
+		
+		if (isActivityEntry) {
+			mergeActivityAndAtomEntry(activityEntry, atomEntry);
+			return activityEntry;
+		}
+		else return atomEntry;
 	}
 	
 	protected ActivityActor parseActor(XmlPullParser parser) throws XmlPullParserException, IOException {	
@@ -209,6 +219,27 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		return source;
 	}
 	
+	protected AtomGenerator parseGenerator(XmlPullParser parser) throws XmlPullParserException, IOException {
+		final AtomGenerator generator = atomFactory.generator();
+
+		for (int i=0; i<parser.getAttributeCount(); i++) {
+			String name = parser.getAttributeName(i);
+			String value = parser.getAttributeValue(i).trim();
+			if (name.equals(Atom.URI_ATTRIBUTE)) {
+				generator.setUri(value);
+			} else if (name.equals(Atom.VERSION_ATTRIBUTE)) {
+				generator.setVersion(value);
+			}
+		}
+		
+		String text = parser.nextText().trim();
+		if (text.length() > 0) {
+			generator.setName(text);
+		}
+		
+		return generator;
+	}
+	
 	protected AtomLink parseLink(XmlPullParser parser) throws XmlPullParserException, IOException {	
 		final AtomLink link = atomFactory.link();
 		for (int i=0; i<parser.getAttributeCount(); i++) {
@@ -257,11 +288,11 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		} else if (name.equals(Atom.CONTRIBUTOR_ELEMENT)) {
 			entry.addContributor(parsePerson(parser));
 		} else if (name.equals(Atom.CONTENT_ELEMENT)) {
-			entry.addContent(parseContent(parser));
+			entry.setContent(parseContent(parser));
 		} else if (name.equals(Atom.LINK_ELEMENT)) {
 			entry.addLink(parseLink(parser));
-		} else if (name.equals(AtomThreading.IN_REPLY_TO_ELEMENT)) {
-			entry.addRecipient(parseRecipient(parser));
+/*		} else if (name.equals(AtomThreading.IN_REPLY_TO_ELEMENT)) {
+			entry.addRecipient(parseRecipient(parser));*/
 		} else if (name.equals(Atom.CATEGORY_ELEMENT)) {
 			entry.addCategory(parseCategory(parser));
 		} else if (name.equals(Atom.ID_ELEMENT)) {
@@ -273,6 +304,36 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		} else if (name.equals(Atom.TITLE_ELEMENT)) {
 			entry.setTitle(parser.nextText().trim());
 		}
+	}
+	
+	protected void readAtomFeedMetadata(AtomFeed feed, XmlPullParser parser) throws XmlPullParserException, IOException {
+		String name = parser.getName();
+		
+		if (name.equals(Atom.AUTHOR_ELEMENT)) {
+			feed.addAuthor(parsePerson(parser));
+		} else if (name.equals(Atom.CATEGORY_ELEMENT)) {
+			feed.addCategory(parseCategory(parser));
+		} else if (name.equals(Atom.CONTRIBUTOR_ELEMENT)) {
+			feed.addContributor(parsePerson(parser));
+		} else if (name.equals(Atom.GENERATOR_ELEMENT)) {
+			feed.setGenerator(parseGenerator(parser));
+		} else if (name.equals(Atom.ICON_ELEMENT)) {
+			feed.setIcon(parser.nextText().trim());
+		} else if (name.equals(Atom.ID_ELEMENT)) {
+			feed.setId(parser.nextText().trim());
+		} else if (name.equals(Atom.LINK_ELEMENT)) {
+			feed.addLink(parseLink(parser));
+		} else if (name.equals(Atom.LOGO_ELEMENT)) {
+			feed.setLogo(parser.nextText().trim());
+		} else if (name.equals(Atom.RIGHTS_ELEMENT)) {
+			feed.setRights(parser.nextText().trim());
+		} else if (name.equals(Atom.SUBTITLE_ELEMENT)) {
+			feed.setSubtitle(parser.nextText().trim());
+		} else if (name.equals(Atom.TITLE_ELEMENT)) {
+			feed.setTitle(parser.nextText().trim());
+		} else if (name.equals(Atom.UPDATED_ELEMENT)) {
+			feed.setUpdated(parseDate(parser.nextText().trim()));
+		} 
 	}
 	
 	protected ActivityObject parseObject(XmlPullParser parser) throws XmlPullParserException, IOException {
@@ -301,6 +362,22 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 			}
 		}
 		return object;
+	}
+	
+	protected void mergeActivityAndAtomEntry(ActivityEntry activityEntry, AtomEntry atomEntry) {
+		
+		if (atomEntry.hasAuthors()) activityEntry.setAuthors(atomEntry.getAuthors());
+		if (atomEntry.hasCategories()) activityEntry.setCategories(atomEntry.getCategories());
+		if (atomEntry.hasContent()) activityEntry.setContent(atomEntry.getContent());
+		if (atomEntry.hasContributors()) activityEntry.setContributors(atomEntry.getContributors());
+		if (atomEntry.hasId()) activityEntry.setId(atomEntry.getId());
+		if (atomEntry.hasLinks()) activityEntry.setLinks(atomEntry.getLinks());
+		if (atomEntry.hasPublished()) activityEntry.setPublished(atomEntry.getPublished());
+		if (atomEntry.hasRights()) activityEntry.setRights(atomEntry.getRights());
+		if (atomEntry.hasSource()) activityEntry.setSource(atomEntry.getSource());
+		if (atomEntry.hasTitle()) activityEntry.setTitle(atomEntry.getTitle());
+		if (atomEntry.hasUpdated()) activityEntry.setUpdated(atomEntry.getUpdated());
+		
 	}
 
 	abstract protected ActivityFactory getActivityFactory();

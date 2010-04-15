@@ -19,14 +19,12 @@ package org.onesocialweb.model.atom;
 import java.util.Date;
 import java.util.List;
 
-public interface AtomEntry {
+public interface AtomEntry extends AtomCommon {
 
 	public void addAuthor(AtomPerson author);
 
 	public void addCategory(AtomCategory category);
-	
-	public void addContent(AtomContent content);
-	
+
 	public void addContributor(AtomPerson person);
 
 	public void addLink(AtomLink link);
@@ -37,7 +35,7 @@ public interface AtomEntry {
 	
 	public List<AtomCategory> getCategories();
 	
-	public List<AtomContent> getContents();
+	public AtomContent getContent();
 	
 	public List<AtomPerson> getContributors();
 	
@@ -61,7 +59,7 @@ public interface AtomEntry {
 	
 	public boolean hasCategories();
 	
-	public boolean hasContents();
+	public boolean hasContent();
 	
 	public boolean hasContributors();
 	
@@ -85,8 +83,6 @@ public interface AtomEntry {
 
 	public void removeCategory(AtomCategory category);
 	
-	public void removeContent(AtomContent content);
-	
 	public void removeContributor(AtomPerson person);
 	
 	public void removeLink(AtomLink link);
@@ -97,11 +93,11 @@ public interface AtomEntry {
 
 	public void setCategories(List<AtomCategory> categories);
 
-	public void setContents(List<AtomContent> contents);
-
 	public void setContributors(List<AtomPerson> contributors);
 
 	public void setId(String id);
+	
+	public void setContent(AtomContent content);
 
 	public void setLinks(List<AtomLink> links);
 

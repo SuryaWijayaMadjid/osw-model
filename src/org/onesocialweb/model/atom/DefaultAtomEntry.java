@@ -26,11 +26,11 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 
 	private List<AtomCategory> categories = new ArrayList<AtomCategory>();
 
-	private List<AtomContent> contents = new ArrayList<AtomContent>();
-
 	private List<AtomPerson> contributors = new ArrayList<AtomPerson>();
 	
 	private List<AtomReplyTo> recipients = new ArrayList<AtomReplyTo>();
+	
+	private AtomContent content;
 
 	private String id;
 
@@ -54,11 +54,6 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 	@Override
 	public void addCategory(AtomCategory category) {
 		this.categories.add(category);
-	}
-
-	@Override
-	public void addContent(AtomContent content) {
-		this.contents.add(content);
 	}
 
 	@Override
@@ -87,8 +82,8 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 	}
 
 	@Override
-	public List<AtomContent> getContents() {
-		return contents;
+	public AtomContent getContent() {
+		return content;
 	}
 
 	@Override
@@ -147,8 +142,8 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 	}
 
 	@Override
-	public boolean hasContents() {
-		return (contents != null && contents.size() > 0);
+	public boolean hasContent() {
+		return content != null;
 	}
 
 	@Override
@@ -207,11 +202,6 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 	}
 
 	@Override
-	public void removeContent(AtomContent content) {
-		contents.remove(content);
-	}
-
-	@Override
 	public void removeContributor(AtomPerson person) {
 		contributors.remove(person);
 	}
@@ -237,8 +227,8 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 	}
 
 	@Override
-	public void setContents(final List<AtomContent> contents) {
-		this.contents = contents;
+	public void setContent(final AtomContent content) {
+		this.content = content;
 	}
 
 	@Override
@@ -247,7 +237,7 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 	}
 
 	@Override
-	public void setId(String id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 
@@ -302,6 +292,9 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 		if (title != null) {
 			buffer.append("title:" + title + " ");
 		}
+		if (content != null) {
+			buffer.append(content.toString());
+		}
 		for (AtomPerson atomPerson : authors) {
 			buffer.append(atomPerson.toString());
 		}
@@ -314,13 +307,11 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 		for (AtomLink atomLink : links) {
 			buffer.append(atomLink.toString());
 		}
-		for (AtomContent atomContent : contents) {
-			buffer.append(atomContent.toString());
-		}
 		for (AtomReplyTo atomRecipient : recipients) {
 			buffer.append(atomRecipient.toString());
 		}
 		buffer.append("]");
 		return buffer.toString();
 	}
+
 }

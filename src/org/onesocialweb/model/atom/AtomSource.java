@@ -16,6 +16,6 @@
  */
 package org.onesocialweb.model.atom;
 
-public interface AtomSource extends AtomCommon {
+public interface AtomSource extends AtomFeedMetadata {
 
 }
