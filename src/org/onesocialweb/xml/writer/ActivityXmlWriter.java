@@ -27,7 +27,6 @@ import org.onesocialweb.model.atom.AtomContent;
 import org.onesocialweb.model.atom.AtomEntry;
 import org.onesocialweb.model.atom.AtomLink;
 import org.onesocialweb.model.atom.AtomPerson;
-import org.onesocialweb.model.atom.AtomReplyTo;
 import org.onesocialweb.model.atom.DefaultAtomHelper;
 import org.onesocialweb.xml.namespace.Activitystreams;
 import org.onesocialweb.xml.namespace.Atom;
@@ -49,7 +48,6 @@ public class ActivityXmlWriter extends XmlWriter {
 		startTag(Atom.ENTRY_ELEMENT);
 		attribute("xmlns", Atom.NAMESPACE);
 		attribute("xmlns:activity", Activitystreams.NAMESPACE);
-		attribute("xmlns:osw", Onesocialweb.NAMESPACE);
 		attribute("xmlns:thr", AtomThreading.NAMESPACE);
 		endOpen();
 		
@@ -150,16 +148,6 @@ public class ActivityXmlWriter extends XmlWriter {
 				if (link.hasRel()) attribute(Atom.REL_ATTRIBUTE, link.getRel());
 				if (link.hasTitle()) attribute(Atom.TITLE_ATTRIBUTE, link.getTitle());
 				if (link.hasType()) attribute(Atom.TYPE_ATTRIBUTE, link.getType());
-				endClosed();
-			}
-		}
-		if (entry.hasRecipients()) {
-			for (AtomReplyTo recipient : entry.getRecipients()) {
-				startTag("thr:" + AtomThreading.IN_REPLY_TO_ELEMENT);
-				if (recipient.hasRef()) attribute(AtomThreading.REF_ATTRIBUTE, recipient.getRef());
-				if (recipient.hasHref()) attribute(AtomThreading.HREF_ATTRIBUTE, recipient.getHref());
-				if (recipient.hasSource()) attribute(AtomThreading.SOURCE_ATTRIBUTE, recipient.getSource());
-				if (recipient.hasType()) attribute(AtomThreading.TYPE_ATTRIBUTE, recipient.getType());
 				endClosed();
 			}
 		}

@@ -23,5 +23,5 @@ import org.xmlpull.v1.XmlPullParserException;
 
 public interface XppReader<T> {
 	
-	public T parse(XmlPullParser parser) throws XmlPullParserException, IOException;
+	public T parse(XmlPullParser parser, int maxEntries) throws XmlPullParserException, IOException;
 }

@@ -23,7 +23,6 @@ import org.onesocialweb.model.activity.DefaultActivityFactory;
 import org.onesocialweb.model.atom.AtomFactory;
 import org.onesocialweb.model.atom.DefaultAtomFactory;
 import org.onesocialweb.model.atom.DefaultAtomHelper;
-import org.onesocialweb.xml.xpp.XppAclReader;
 import org.onesocialweb.xml.xpp.XppActivityReader;
 
 public class DefaultXppActivityReader extends XppActivityReader {
@@ -43,8 +42,4 @@ public class DefaultXppActivityReader extends XppActivityReader {
 		return DefaultAtomHelper.parseDate(atomDate);
 	}
 
-	@Override
-	protected XppAclReader getXppAclReader() {
-		return new DefaultXppAclReader();
-	}
 }

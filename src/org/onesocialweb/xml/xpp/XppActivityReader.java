@@ -46,17 +46,17 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	
 	private final AtomFactory atomFactory;
 	
-	private final XppAclReader aclReader;
+	//private final XppAclReader aclReader;
 
 	public XppActivityReader() {
-		this.aclReader = getXppAclReader();
+		//this.aclReader = getXppAclReader();
 		this.activityFactory = getActivityFactory();
 		this.atomFactory = getAtomFactory();
 	}
 	
 	
 	@Override
-	public AtomFeed parse(XmlPullParser parser) throws XmlPullParserException, IOException {
+	public AtomFeed parse(XmlPullParser parser, int maxEntries) throws XmlPullParserException, IOException {
 
 		// Verify that we are on the right token
 		if (!(parser.getNamespace().equals(Atom.NAMESPACE) 
@@ -65,7 +65,9 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		}
 
 		//Proceed with parsing
+		int totalEntries = 0;
 		boolean done = false;
+		boolean isIgnoringEntry = false;
 		AtomFeed feed = atomFactory.feed();
 		
 		while (!done) {
@@ -75,14 +77,22 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 			if (eventType == XmlPullParser.START_TAG) {
 				if (namespace.equals(Atom.NAMESPACE)) {
 					if (name.equals(Atom.ENTRY_ELEMENT)) {
-						feed.addEntry(parseEntry(parser));
-					} else
+						if (totalEntries < maxEntries) {
+							feed.addEntry(parseEntry(parser));
+							totalEntries++;
+						}
+						else isIgnoringEntry = true;
+					} else if (isIgnoringEntry == false)
 						readAtomFeedMetadata(feed, parser);
 				}
 			} else if (eventType == XmlPullParser.END_TAG) {
-				if (namespace.equals(Atom.NAMESPACE)
-						&& name.equals(Atom.FEED_ELEMENT)) {
-					done = true;
+				if (namespace.equals(Atom.NAMESPACE)) {
+					if (name.equals(Atom.FEED_ELEMENT)) {
+						done = true;
+					}
+					else if (name.equals(Atom.ENTRY_ELEMENT) && isIgnoringEntry == true) {
+						isIgnoringEntry = false;
+					}
 				}
 			}
 		}
@@ -119,10 +129,6 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 					}
 				} else if (namespace.equals(Atom.NAMESPACE)) {
 					readAtomEntryElement(atomEntry, parser);
-				} else if (namespace.equals(Onesocialweb.NAMESPACE)) {
-					if (name.equals(Onesocialweb.ACL_RULE_ELEMENT)) {
-						activityEntry.addAclRule(aclReader.parse(parser));
-					}
 				}
 			} else if (eventType == XmlPullParser.END_TAG) {
 				if (namespace.equals(Atom.NAMESPACE)
@@ -179,7 +185,8 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	
 	protected AtomContent parseContent(XmlPullParser parser) throws XmlPullParserException, IOException {
 		final AtomContent content = atomFactory.content();
-		for (int i=0; i<parser.getAttributeCount(); i++) {
+		final int attrCount = parser.getAttributeCount();
+		for (int i=0; i<attrCount; i++) {
 			String name = parser.getAttributeName(i);
 			String value = parser.getAttributeValue(i).trim();
 			if (name.equals(Atom.SRC_ATTRIBUTE)) {
@@ -199,7 +206,8 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	
 	protected AtomCategory parseCategory(XmlPullParser parser) throws XmlPullParserException, IOException {	
 		final AtomCategory category = atomFactory.category();
-		for (int i=0; i<parser.getAttributeCount(); i++) {
+		final int attrCount = parser.getAttributeCount();
+		for (int i=0; i<attrCount; i++) {
 			String name = parser.getAttributeName(i);
 			String value = parser.getAttributeValue(i).trim();
 			if (name.equals(Atom.LABEL_ATTRIBUTE)) {
@@ -221,8 +229,8 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	
 	protected AtomGenerator parseGenerator(XmlPullParser parser) throws XmlPullParserException, IOException {
 		final AtomGenerator generator = atomFactory.generator();
-
-		for (int i=0; i<parser.getAttributeCount(); i++) {
+		final int attrCount = parser.getAttributeCount();
+		for (int i=0; i<attrCount; i++) {
 			String name = parser.getAttributeName(i);
 			String value = parser.getAttributeValue(i).trim();
 			if (name.equals(Atom.URI_ATTRIBUTE)) {
@@ -242,7 +250,8 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	
 	protected AtomLink parseLink(XmlPullParser parser) throws XmlPullParserException, IOException {	
 		final AtomLink link = atomFactory.link();
-		for (int i=0; i<parser.getAttributeCount(); i++) {
+		final int attrCount = parser.getAttributeCount();
+		for (int i=0; i<attrCount; i++) {
 			String name = parser.getAttributeName(i);
 			String value = parser.getAttributeValue(i).trim();
 			if (name.equals(Atom.HREF_ATTRIBUTE)) {
@@ -251,11 +260,11 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 				link.setHreflang(value);
 			} else if (name.equals(Atom.LENGTH_ATTRIBUTE)) {
 				link.setLength(value);
-			}  else if (name.equals(Atom.REL_ATTRIBUTE)) {
+			} else if (name.equals(Atom.REL_ATTRIBUTE)) {
 				link.setRel(value);
-			}  else if (name.equals(Atom.TITLE_ATTRIBUTE)) {
+			} else if (name.equals(Atom.TITLE_ATTRIBUTE)) {
 				link.setTitle(value);
-			}  else if (name.equals(Atom.TYPE_ATTRIBUTE)) {
+			} else if (name.equals(Atom.TYPE_ATTRIBUTE)) {
 				link.setType(value);
 			}
 		}
@@ -264,16 +273,17 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	
 	protected AtomReplyTo parseRecipient(XmlPullParser parser) throws XmlPullParserException, IOException {	
 		final AtomReplyTo recipient = atomFactory.reply();
-		for (int i=0; i<parser.getAttributeCount(); i++) {
+		final int attrCount = parser.getAttributeCount();
+		for (int i=0; i<attrCount; i++) {
 			String name = parser.getAttributeName(i);
 			String value = parser.getAttributeValue(i).trim();
 			if (name.equals(AtomThreading.HREF_ATTRIBUTE)) {
 				recipient.setHref(value);
-			}  else if (name.equals(AtomThreading.TYPE_ATTRIBUTE)) {
+			} else if (name.equals(AtomThreading.TYPE_ATTRIBUTE)) {
 				recipient.setType(value);
-			}  else if (name.equals(AtomThreading.SOURCE_ATTRIBUTE)) {
+			} else if (name.equals(AtomThreading.SOURCE_ATTRIBUTE)) {
 				recipient.setSource(value);
-			}  else if (name.equals(AtomThreading.REF_ATTRIBUTE)) {
+			} else if (name.equals(AtomThreading.REF_ATTRIBUTE)) {
 				recipient.setRef(value);
 			}
 		}
@@ -383,8 +393,6 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	abstract protected ActivityFactory getActivityFactory();
 	
 	abstract protected AtomFactory getAtomFactory();
-	
-	abstract protected XppAclReader getXppAclReader();
 	
 	abstract protected Date parseDate(String atomDate);
 	
