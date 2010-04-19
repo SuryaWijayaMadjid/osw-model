@@ -74,15 +74,15 @@ public class DefaultAtomCategory extends DefaultAtomCommon implements AtomCatego
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[AtomCategory ");
 		if (label != null) {
-			buffer.append("label:" + label + " ");
+			buffer.append("label:" + label + "\n");
 		}
 		if (term != null) {
-			buffer.append("term:" + term + " ");
+			buffer.append("term:" + term + "\n");
 		}
 		if (scheme != null) {
 			buffer.append("scheme:" + scheme + " ");
 		}
-		buffer.append("]");
+		buffer.append("]\n");
 		return buffer.toString();
 	}
 

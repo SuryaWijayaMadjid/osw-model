@@ -95,24 +95,24 @@ public class DefaultAtomLink extends DefaultAtomCommon implements AtomLink {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[AtomLink ");
 		if (href != null) {
-			buffer.append("href:" + href + " ");
+			buffer.append("href:" + href + "\n");
 		}
 		if (hrefLang != null) {
-			buffer.append("hrefLang:" + hrefLang + " ");
+			buffer.append("hrefLang:" + hrefLang + "\n");
 		}
 		if (length != null) {
-			buffer.append("length:" + length + " ");
+			buffer.append("length:" + length + "\n");
 		}
 		if (rel != null) {
-			buffer.append("rel:" + rel + " ");
+			buffer.append("rel:" + rel + "\n");
 		}
 		if (title != null) {
-			buffer.append("title:" + title + " ");
+			buffer.append("title:" + title + "\n");
 		}
 		if (type != null) {
 			buffer.append("type:" + type + " ");
 		}
-		buffer.append("]");
+		buffer.append("]\n");
 		return buffer.toString();
 	}
 

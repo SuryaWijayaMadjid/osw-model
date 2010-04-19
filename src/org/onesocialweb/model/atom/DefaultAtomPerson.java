@@ -59,15 +59,15 @@ public class DefaultAtomPerson extends DefaultAtomCommon implements AtomPerson {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[AtomPerson ");
 		if (name != null) {
-			buffer.append("name:" + name + " ");
+			buffer.append("name:" + name + "\n");
 		}
 		if (email != null) {
-			buffer.append("email:" + email + " ");
+			buffer.append("email:" + email + "\n");
 		}
 		if (uri != null) {
 			buffer.append("uri:" + uri + " ");
 		}
-		buffer.append("]");
+		buffer.append("]\n");
 		return buffer.toString();
 	}
 

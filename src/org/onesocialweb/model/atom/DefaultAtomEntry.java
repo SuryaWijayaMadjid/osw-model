@@ -281,16 +281,16 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[AtomEntry ");
 		if (id != null) {
-			buffer.append("id:" + id + " ");
+			buffer.append("id:" + id + "\n");
 		}
 		if (published != null) {
-			buffer.append("published:" + published + " ");
+			buffer.append("published:" + published + "\n");
 		}
 		if (updated != null) {
-			buffer.append("updated:" + updated + " ");
+			buffer.append("updated:" + updated + "\n");
 		}
 		if (title != null) {
-			buffer.append("title:" + title + " ");
+			buffer.append("title:" + title + "\n");
 		}
 		if (content != null) {
 			buffer.append(content.toString());
@@ -310,7 +310,7 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 		for (AtomReplyTo atomRecipient : recipients) {
 			buffer.append(atomRecipient.toString());
 		}
-		buffer.append("]");
+		buffer.append("]\n");
 		return buffer.toString();
 	}
 

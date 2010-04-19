@@ -59,15 +59,15 @@ public class DefaultAtomContent extends DefaultAtomCommon implements AtomContent
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[AtomContent ");
 		if (type != null) {
-			buffer.append("type:" + type + " ");
+			buffer.append("type:" + type + "\n");
 		}
 		if (src != null) {
-			buffer.append("src:" + src + " ");
+			buffer.append("src:" + src + "\n");
 		}
 		if (value != null) {
 			buffer.append("value:" + value + " ");
 		}
-		buffer.append("]");
+		buffer.append("]\n");
 
 		return buffer.toString();
 	}

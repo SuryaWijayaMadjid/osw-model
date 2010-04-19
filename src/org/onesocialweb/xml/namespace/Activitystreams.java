@@ -27,5 +27,7 @@ public class Activitystreams {
 	public static final String ACTOR_ELEMENT = "actor";
 
 	public static final String OBJECT_TYPE_ELEMENT = "object-type";
+	
+	public static final String TARGET_ELEMENT = "target";
 
 }

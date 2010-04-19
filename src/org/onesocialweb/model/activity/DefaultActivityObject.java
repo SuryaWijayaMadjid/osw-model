@@ -40,7 +40,7 @@ public class DefaultActivityObject extends DefaultAtomEntry implements ActivityO
 			buffer.append("type:" + type + " ");
 		}
 		buffer.append(super.toString());
-		buffer.append("]");
+		buffer.append("]\n");
 		return buffer.toString();
 	}
 }

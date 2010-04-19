@@ -69,11 +69,13 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		boolean done = false;
 		boolean isIgnoringEntry = false;
 		AtomFeed feed = atomFactory.feed();
+		String name = "";
+		String namespace = "";
 		
 		while (!done) {
 			int eventType = parser.next();
-			String name = parser.getName();
-			String namespace = parser.getNamespace();
+			name = parser.getName();
+			namespace = parser.getNamespace();
 			if (eventType == XmlPullParser.START_TAG) {
 				if (namespace.equals(Atom.NAMESPACE)) {
 					if (name.equals(Atom.ENTRY_ELEMENT)) {
@@ -112,11 +114,13 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		final AtomEntry atomEntry = atomFactory.entry();
 		boolean done = false;
 		boolean isActivityEntry = false;
+		String name = "";
+		String namespace = "";
 		
 		while (!done) {
 			int eventType = parser.next();
-			String name = parser.getName();
-			String namespace = parser.getNamespace();
+			name = parser.getName();
+			namespace = parser.getNamespace();
 			if (eventType == XmlPullParser.START_TAG) {
 				if (namespace.equals(Activitystreams.NAMESPACE)) {
 					isActivityEntry = true;
@@ -126,6 +130,8 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 						activityEntry.addVerb(activityFactory.verb(parser.nextText()));
 					} else if (name.equals(Activitystreams.OBJECT_ELEMENT)) {
 						activityEntry.addObject(parseObject(parser));
+					} else if (name.equals(Activitystreams.TARGET_ELEMENT)) {
+						activityEntry.setTarget(parseTarget(parser));
 					}
 				} else if (namespace.equals(Atom.NAMESPACE)) {
 					readAtomEntryElement(atomEntry, parser);
@@ -160,18 +166,20 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	protected void readAtomPersonElement(AtomPerson person, XmlPullParser parser) throws XmlPullParserException, IOException {
 		final String tagName = parser.getName();
 		final String tagNamespace = parser.getNamespace();
+		String name = "";
+		String namespace = "";
 		boolean done = false;
 		while (!done) {
 			int eventType = parser.next();
-			String name = parser.getName();
-			String namespace = parser.getNamespace();
+			name = parser.getName();
+			namespace = parser.getNamespace();
 			if (eventType == XmlPullParser.START_TAG) {
 				if (namespace.equals(Atom.NAMESPACE)) {
 					if (name.equals(Atom.NAME_ELEMENT)) {
 						person.setName(parser.nextText().trim());
 					} else if (name.equals(Atom.EMAIL_ELEMENT)) {
 						person.setEmail(parser.nextText().trim());
-					}  else if (name.equals(Atom.URI_ELEMENT)) {
+					} else if (name.equals(Atom.URI_ELEMENT)) {
 						person.setUri(parser.nextText().trim());
 					}
 				}
@@ -186,9 +194,11 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	protected AtomContent parseContent(XmlPullParser parser) throws XmlPullParserException, IOException {
 		final AtomContent content = atomFactory.content();
 		final int attrCount = parser.getAttributeCount();
+		String name = "";
+		String value = "";
 		for (int i=0; i<attrCount; i++) {
-			String name = parser.getAttributeName(i);
-			String value = parser.getAttributeValue(i).trim();
+			name = parser.getAttributeName(i);
+			value = parser.getAttributeValue(i).trim();
 			if (name.equals(Atom.SRC_ATTRIBUTE)) {
 				content.setSrc(value);
 			} else if (name.equals(Atom.TYPE_ATTRIBUTE)) {
@@ -207,9 +217,11 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	protected AtomCategory parseCategory(XmlPullParser parser) throws XmlPullParserException, IOException {	
 		final AtomCategory category = atomFactory.category();
 		final int attrCount = parser.getAttributeCount();
+		String name = "";
+		String value = "";
 		for (int i=0; i<attrCount; i++) {
-			String name = parser.getAttributeName(i);
-			String value = parser.getAttributeValue(i).trim();
+			name = parser.getAttributeName(i);
+			value = parser.getAttributeValue(i).trim();
 			if (name.equals(Atom.LABEL_ATTRIBUTE)) {
 				category.setLabel(value);
 			} else if (name.equals(Atom.SCHEME_ATTRIBUTE)) {
@@ -230,9 +242,11 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	protected AtomGenerator parseGenerator(XmlPullParser parser) throws XmlPullParserException, IOException {
 		final AtomGenerator generator = atomFactory.generator();
 		final int attrCount = parser.getAttributeCount();
+		String name = "";
+		String value = "";
 		for (int i=0; i<attrCount; i++) {
-			String name = parser.getAttributeName(i);
-			String value = parser.getAttributeValue(i).trim();
+			name = parser.getAttributeName(i);
+			value = parser.getAttributeValue(i).trim();
 			if (name.equals(Atom.URI_ATTRIBUTE)) {
 				generator.setUri(value);
 			} else if (name.equals(Atom.VERSION_ATTRIBUTE)) {
@@ -251,9 +265,11 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	protected AtomLink parseLink(XmlPullParser parser) throws XmlPullParserException, IOException {	
 		final AtomLink link = atomFactory.link();
 		final int attrCount = parser.getAttributeCount();
+		String name = "";
+		String value = "";
 		for (int i=0; i<attrCount; i++) {
-			String name = parser.getAttributeName(i);
-			String value = parser.getAttributeValue(i).trim();
+			name = parser.getAttributeName(i);
+			value = parser.getAttributeValue(i).trim();
 			if (name.equals(Atom.HREF_ATTRIBUTE)) {
 				link.setHref(value);
 			} else if (name.equals(Atom.HREFLANG_ATTRIBUTE)) {
@@ -274,9 +290,11 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	protected AtomReplyTo parseRecipient(XmlPullParser parser) throws XmlPullParserException, IOException {	
 		final AtomReplyTo recipient = atomFactory.reply();
 		final int attrCount = parser.getAttributeCount();
+		String name = "";
+		String value = "";
 		for (int i=0; i<attrCount; i++) {
-			String name = parser.getAttributeName(i);
-			String value = parser.getAttributeValue(i).trim();
+			name = parser.getAttributeName(i);
+			value = parser.getAttributeValue(i).trim();
 			if (name.equals(AtomThreading.HREF_ATTRIBUTE)) {
 				recipient.setHref(value);
 			} else if (name.equals(AtomThreading.TYPE_ATTRIBUTE)) {
@@ -301,8 +319,6 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 			entry.setContent(parseContent(parser));
 		} else if (name.equals(Atom.LINK_ELEMENT)) {
 			entry.addLink(parseLink(parser));
-/*		} else if (name.equals(AtomThreading.IN_REPLY_TO_ELEMENT)) {
-			entry.addRecipient(parseRecipient(parser));*/
 		} else if (name.equals(Atom.CATEGORY_ELEMENT)) {
 			entry.addCategory(parseCategory(parser));
 		} else if (name.equals(Atom.ID_ELEMENT)) {
@@ -348,12 +364,24 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	
 	protected ActivityObject parseObject(XmlPullParser parser) throws XmlPullParserException, IOException {
 		final ActivityObject object = activityFactory.object();
+		readActivityObjectElement(object, parser, Activitystreams.OBJECT_ELEMENT);
+		return object;
+	}
+	
+	protected ActivityObject parseTarget(XmlPullParser parser) throws XmlPullParserException, IOException {
+		final ActivityObject target = activityFactory.object();
+		readActivityObjectElement(target, parser, Activitystreams.TARGET_ELEMENT);
+		return target;
+	}
+	
+	protected void readActivityObjectElement(ActivityObject object, XmlPullParser parser, String activityObjectType) throws XmlPullParserException, IOException {
 		boolean done = false;
-		
+		String name = "";
+		String namespace = "";
 		while (!done) {
 			int eventType = parser.next();
-			String name = parser.getName();
-			String namespace = parser.getNamespace();
+			name = parser.getName();
+			namespace = parser.getNamespace();
 			if (eventType == XmlPullParser.START_TAG) {
 				if (namespace.equals(Activitystreams.NAMESPACE)) {
 					if (name.equals(Activitystreams.OBJECT_TYPE_ELEMENT)) {
@@ -366,12 +394,11 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 				}
 			} else if (eventType == XmlPullParser.END_TAG) {
 				if (namespace.equals(Activitystreams.NAMESPACE)
-						&& name.equals(Activitystreams.OBJECT_ELEMENT)) {
+						&& name.equals(activityObjectType)) {
 					done = true;
 				}
 			}
 		}
-		return object;
 	}
 	
 	protected void mergeActivityAndAtomEntry(ActivityEntry activityEntry, AtomEntry atomEntry) {

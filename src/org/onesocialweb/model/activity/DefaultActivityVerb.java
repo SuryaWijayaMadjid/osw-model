@@ -39,7 +39,7 @@ public class DefaultActivityVerb extends DefaultAtomCommon implements ActivityVe
 		if (verb != null) {
 			buffer.append("verb:" + verb + " ");
 		}
-		buffer.append("]");
+		buffer.append("]\n");
 		return buffer.toString();
 	}
 }

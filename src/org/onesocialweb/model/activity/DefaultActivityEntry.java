@@ -27,6 +27,8 @@ public class DefaultActivityEntry extends DefaultAtomEntry implements ActivityEn
 	
 	private ActivityActor actor;
 	
+	private ActivityObject target;
+	
 	private List<AclRule> rules = new ArrayList<AclRule>();
 	
 	private List<ActivityObject> objects = new ArrayList<ActivityObject>();
@@ -69,6 +71,11 @@ public class DefaultActivityEntry extends DefaultAtomEntry implements ActivityEn
 	}
 	
 	@Override
+	public ActivityObject getTarget() {
+		return target;
+	}
+	
+	@Override
 	public void removeObject(ActivityObject object) {
 		this.objects.remove(object);
 	}
@@ -104,12 +111,20 @@ public class DefaultActivityEntry extends DefaultAtomEntry implements ActivityEn
 	}
 	
 	@Override
+	public void setTarget(ActivityObject target) {
+		this.target = target;
+	}
+	
+	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[ActivityEntry ");
 		buffer.append(super.toString());
 		if (actor != null) {
-			buffer.append("actor:" + actor + " ");
+			buffer.append("actor:" + actor + "\n");
+		}
+		if (target != null) {
+			buffer.append(target.toString());
 		}
 		for (ActivityVerb verb : verbs) {
 			buffer.append(verb.toString());
@@ -123,7 +138,7 @@ public class DefaultActivityEntry extends DefaultAtomEntry implements ActivityEn
 		for (AtomReplyTo atomRecipient : getRecipients()) {
 			buffer.append(atomRecipient.toString());
 		}
-		buffer.append("]");
+		buffer.append("]\n");
 		return buffer.toString();
 	}
 
@@ -145,6 +160,11 @@ public class DefaultActivityEntry extends DefaultAtomEntry implements ActivityEn
 	@Override
 	public boolean hasVerbs() {
 		return (verbs != null && verbs.size() > 0);
+	}
+	
+	@Override
+	public boolean hasTarget() {
+		return (target != null);
 	}
 	
 }

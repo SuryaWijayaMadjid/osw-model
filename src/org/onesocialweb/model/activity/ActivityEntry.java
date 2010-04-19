@@ -37,6 +37,8 @@ public interface ActivityEntry extends AtomEntry {
 
 	public List<ActivityVerb> getVerbs();
 	
+	public ActivityObject getTarget();
+	
 	public boolean hasAclRules();
 	
 	public boolean hasObjects();
@@ -44,6 +46,8 @@ public interface ActivityEntry extends AtomEntry {
 	public boolean hasActor();
 	
 	public boolean hasVerbs();
+	
+	public boolean hasTarget();
 	
 	public void removeObject(ActivityObject object);
 	
@@ -58,5 +62,7 @@ public interface ActivityEntry extends AtomEntry {
 	public void setObjects(List<ActivityObject> objects);
 
 	public void setVerbs(final List<ActivityVerb> verbs);
+	
+	public void setTarget(final ActivityObject target);
 
 }

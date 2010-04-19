@@ -282,28 +282,28 @@ public class DefaultAtomFeed extends DefaultAtomCommon implements AtomFeed {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[AtomFeed ");
 		if (id != null) {
-			buffer.append("id:" + id + " ");
+			buffer.append("id:" + id + "\n");
 		}
 		if (updated != null) {
-			buffer.append("updated:" + updated + " ");
+			buffer.append("updated:" + updated + "\n");
 		}
 		if (title != null) {
-			buffer.append("title:" + title + " ");
+			buffer.append("title:" + title + "\n");
 		}
 		if (rights != null) {
-			buffer.append("rights:" + rights + " ");
+			buffer.append("rights:" + rights + "\n");
 		}
 		if (subtitle != null) {
-			buffer.append("subtitle:" + subtitle + " ");
+			buffer.append("subtitle:" + subtitle + "\n");
 		}
 		if (generator != null) {
-			buffer.append("generator:" + generator + " ");
+			buffer.append("generator:" + generator + "\n");
 		}
 		if (icon != null) {
-			buffer.append("icon:" + icon + " ");
+			buffer.append("icon:" + icon + "\n");
 		}
 		if (logo != null) {
-			buffer.append("logo:" + logo + " ");
+			buffer.append("logo:" + logo + "\n");
 		}
 		for (AtomPerson author : authors) {
 			buffer.append(author.toString());
@@ -320,7 +320,7 @@ public class DefaultAtomFeed extends DefaultAtomCommon implements AtomFeed {
 		for (AtomEntry entry : entries) {
 			buffer.append(entry.toString());
 		}
-		buffer.append("]");
+		buffer.append("]\n");
 		return buffer.toString();
 	}
 

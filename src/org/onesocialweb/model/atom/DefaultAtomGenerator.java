@@ -58,15 +58,15 @@ public class DefaultAtomGenerator extends DefaultAtomCommon implements AtomGener
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[AtomPerson ");
 		if (name != null) {
-			buffer.append("name:" + name + " ");
+			buffer.append("name:" + name + "\n");
 		}
 		if (uri != null) {
-			buffer.append("uri:" + uri + " ");
+			buffer.append("uri:" + uri + "\n");
 		}
 		if (version != null) {
-			buffer.append("version:" + version + " ");
+			buffer.append("version:" + version + "");
 		}
-		buffer.append("]");
+		buffer.append("]\n");
 		return buffer.toString();
 	}
 	
