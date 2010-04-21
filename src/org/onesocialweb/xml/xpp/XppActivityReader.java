@@ -33,6 +33,7 @@ import org.onesocialweb.model.atom.AtomLink;
 import org.onesocialweb.model.atom.AtomPerson;
 import org.onesocialweb.model.atom.AtomReplyTo;
 import org.onesocialweb.model.atom.AtomSource;
+import org.onesocialweb.model.atom.AtomText;
 import org.onesocialweb.xml.namespace.Activitystreams;
 import org.onesocialweb.xml.namespace.Atom;
 import org.onesocialweb.xml.namespace.AtomThreading;
@@ -56,7 +57,7 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 	
 	
 	@Override
-	public AtomFeed parse(XmlPullParser parser, int maxEntries) throws XmlPullParserException, IOException {
+	public AtomFeed parse(XmlPullParser parser) throws XmlPullParserException, IOException {
 
 		// Verify that we are on the right token
 		if (!(parser.getNamespace().equals(Atom.NAMESPACE) 
@@ -65,9 +66,7 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		}
 
 		//Proceed with parsing
-		int totalEntries = 0;
 		boolean done = false;
-		boolean isIgnoringEntry = false;
 		AtomFeed feed = atomFactory.feed();
 		String name = "";
 		String namespace = "";
@@ -79,21 +78,15 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 			if (eventType == XmlPullParser.START_TAG) {
 				if (namespace.equals(Atom.NAMESPACE)) {
 					if (name.equals(Atom.ENTRY_ELEMENT)) {
-						if (totalEntries < maxEntries) {
-							feed.addEntry(parseEntry(parser));
-							totalEntries++;
-						}
-						else isIgnoringEntry = true;
-					} else if (isIgnoringEntry == false)
+						feed.addEntry(parseEntry(parser));	
+					} 
+					else 
 						readAtomFeedMetadata(feed, parser);
 				}
 			} else if (eventType == XmlPullParser.END_TAG) {
 				if (namespace.equals(Atom.NAMESPACE)) {
 					if (name.equals(Atom.FEED_ELEMENT)) {
 						done = true;
-					}
-					else if (name.equals(Atom.ENTRY_ELEMENT) && isIgnoringEntry == true) {
-						isIgnoringEntry = false;
 					}
 				}
 			}
@@ -210,8 +203,33 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		if (text.length() > 0) {
 			content.setValue(text);
 		}
+		else
+			return null;
 		
 		return content;
+	}
+	
+	protected AtomText parseText(XmlPullParser parser) throws XmlPullParserException, IOException {
+		final AtomText atomText = atomFactory.text();
+		final int attrCount = parser.getAttributeCount();
+		String name = "";
+		String value = "";
+		for (int i=0; i<attrCount; i++) {
+			name = parser.getAttributeName(i);
+			value = parser.getAttributeValue(i).trim();
+			if (name.equals(Atom.TYPE_ATTRIBUTE)) {
+				atomText.setType(value);
+			}
+		}
+		
+		String text = parser.nextText().trim();
+		if (text.length() > 0) {
+			atomText.setValue(text);
+		}
+		else
+			return null;
+		
+		return atomText;
 	}
 	
 	protected AtomCategory parseCategory(XmlPullParser parser) throws XmlPullParserException, IOException {	
@@ -258,6 +276,8 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		if (text.length() > 0) {
 			generator.setName(text);
 		}
+		else
+			return null;
 		
 		return generator;
 	}
@@ -328,7 +348,7 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		} else if (name.equals(Atom.UPDATED_ELEMENT)) {
 			entry.setUpdated(parseDate(parser.nextText().trim()));
 		} else if (name.equals(Atom.TITLE_ELEMENT)) {
-			entry.setTitle(parser.nextText().trim());
+			entry.setTitle(parseText(parser));
 		}
 	}
 	
@@ -352,11 +372,11 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		} else if (name.equals(Atom.LOGO_ELEMENT)) {
 			feed.setLogo(parser.nextText().trim());
 		} else if (name.equals(Atom.RIGHTS_ELEMENT)) {
-			feed.setRights(parser.nextText().trim());
+			feed.setRights(parseText(parser));
 		} else if (name.equals(Atom.SUBTITLE_ELEMENT)) {
-			feed.setSubtitle(parser.nextText().trim());
+			feed.setSubtitle(parseText(parser));
 		} else if (name.equals(Atom.TITLE_ELEMENT)) {
-			feed.setTitle(parser.nextText().trim());
+			feed.setTitle(parseText(parser));
 		} else if (name.equals(Atom.UPDATED_ELEMENT)) {
 			feed.setUpdated(parseDate(parser.nextText().trim()));
 		} 

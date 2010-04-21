@@ -63,4 +63,9 @@ public class DefaultAtomFactory extends AtomFactory {
 		return new DefaultAtomGenerator();
 	}
 
+	@Override
+	public AtomText text() {
+		return new DefaultAtomText();
+	}
+
 }

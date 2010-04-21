@@ -38,11 +38,13 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 
 	private Date published;
 
-	private String rights;
+	private AtomText rights;
 
 	private AtomSource source;
 
-	private String title;
+	private AtomText title;
+	
+	private AtomText summary;
 
 	private Date updated;
 
@@ -112,7 +114,7 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 	}
 
 	@Override
-	public String getRights() {
+	public AtomText getRights() {
 		return rights;
 	}
 
@@ -122,7 +124,7 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 	}
 
 	@Override
-	public String getTitle() {
+	public AtomText getTitle() {
 		return title;
 	}
 
@@ -252,7 +254,7 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 	}
 
 	@Override
-	public void setRights(final String rights) {
+	public void setRights(final AtomText rights) {
 		this.rights = rights;
 	}
 
@@ -262,7 +264,7 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 	}
 
 	@Override
-	public void setTitle(final String title) {
+	public void setTitle(final AtomText title) {
 		this.title = title;
 	}
 
@@ -290,7 +292,7 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 			buffer.append("updated:" + updated + "\n");
 		}
 		if (title != null) {
-			buffer.append("title:" + title + "\n");
+			buffer.append("title:" + title.toString());
 		}
 		if (content != null) {
 			buffer.append(content.toString());
@@ -312,6 +314,21 @@ public class DefaultAtomEntry extends DefaultAtomCommon implements AtomEntry {
 		}
 		buffer.append("]\n");
 		return buffer.toString();
+	}
+
+	@Override
+	public AtomText getSummary() {
+		return summary;
+	}
+
+	@Override
+	public boolean hasSummary() {
+		return (summary != null);
+	}
+
+	@Override
+	public void setSummary(AtomText summary) {
+		this.summary = summary;
 	}
 
 }

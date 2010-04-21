@@ -47,13 +47,15 @@ public interface AtomEntry extends AtomCommon {
 	
 	public Date getPublished();
 
-	public String getRights();
+	public AtomText getRights();
 
 	public AtomSource getSource();
 	
-	public String getTitle();
+	public AtomText getTitle();
 	
 	public Date getUpdated();
+	
+	public AtomText getSummary();
 	
 	public boolean hasAuthors();
 	
@@ -79,6 +81,8 @@ public interface AtomEntry extends AtomCommon {
 	
 	public boolean hasRecipients();
 	
+	public boolean hasSummary();
+	
 	public void removeAuthor(AtomPerson author);
 
 	public void removeCategory(AtomCategory category);
@@ -103,14 +107,16 @@ public interface AtomEntry extends AtomCommon {
 
 	public void setPublished(Date published);
 
-	public void setRights(String rights);
+	public void setRights(AtomText rights);
 
 	public void setSource(AtomSource source);
 
-	public void setTitle(String title);
+	public void setTitle(AtomText title);
 
 	public void setUpdated(Date updated);
 	
 	public void setRecipients(List<AtomReplyTo> resources);
+	
+	public void setSummary(AtomText summary);
 
 }

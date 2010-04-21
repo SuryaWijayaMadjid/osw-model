@@ -33,11 +33,11 @@ public interface AtomFeed {
 	
 	public List<AtomLink> getLinks();
 
-	public String getRights();
+	public AtomText getRights();
 	
-	public String getTitle();
+	public AtomText getTitle();
 	
-	public String getSubtitle();
+	public AtomText getSubtitle();
 	
 	public Date getUpdated();
 	
@@ -89,11 +89,11 @@ public interface AtomFeed {
 
 	public void setLinks(List<AtomLink> links);
 
-	public void setRights(String rights);
+	public void setRights(AtomText rights);
 
-	public void setTitle(String title);
+	public void setTitle(AtomText title);
 	
-	public void setSubtitle(String subtitle);
+	public void setSubtitle(AtomText subtitle);
 
 	public void setUpdated(Date updated);
 	

@@ -17,8 +17,10 @@
 package org.onesocialweb.model.activity;
 
 public interface ActivityVerb {
-	
-	public static final String POST = "http://activitystrea.ms/schema/1.0/post";
+		
+	public static final String POST = "http://activitystrea.ms/schema/1.0/post";	
+	public static final String SHARE = "http://activitystrea.ms/schema/1.0/share";	
+	public static final String SAVE = "http://activitystrea.ms/schema/1.0/save";	
 
 	public String getValue();
 

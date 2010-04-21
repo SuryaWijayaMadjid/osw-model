@@ -18,6 +18,13 @@ package org.onesocialweb.model.atom;
 
 public interface AtomLink extends AtomCommon {
 
+	public static final String REL_PREVIEW = "preview";
+	public static final String REL_ALTERNATE = "alternate";
+	public static final String REL_RELATED = "related";
+	public static final String REL_VIA = "via";
+	public static final String REL_SELF = "self";
+	public static final String REL_ENCLOSURE = "enclosure";
+	
 	public String getHref();
 
 	public String getHreflang();

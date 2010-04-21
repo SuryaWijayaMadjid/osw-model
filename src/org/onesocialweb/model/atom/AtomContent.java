@@ -16,24 +16,12 @@
  */
 package org.onesocialweb.model.atom;
 
-public interface AtomContent extends AtomCommon {
+public interface AtomContent extends AtomText {
 
 	public String getSrc();
-
-	public String getType();
-
-	public String getValue();
-
+	
 	public void setSrc(final String src);
 
-	public void setType(final String type);
-
-	public void setValue(final String value);
-	
 	public boolean hasSrc();
-	
-	public boolean hasType();
-	
-	public boolean hasValue();
 
 }

@@ -84,4 +84,6 @@ public class Atom {
 	
 	public static final String LOGO_ELEMENT = "logo";
 	
+	public static final String SUMMARY_ELEMENT = "summary";
+	
 }

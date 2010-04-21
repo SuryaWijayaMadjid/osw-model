@@ -18,11 +18,11 @@ public class DefaultAtomFeed extends DefaultAtomCommon implements AtomFeed {
 	
 	public List<AtomLink> links = new ArrayList<AtomLink>();
 
-	public String rights;
+	public AtomText rights;
 	
-	public String title;
+	public AtomText title;
 	
-	public String subtitle;
+	public AtomText subtitle;
 	
 	public Date updated;
 	
@@ -98,17 +98,17 @@ public class DefaultAtomFeed extends DefaultAtomCommon implements AtomFeed {
 	}
 
 	@Override
-	public String getRights() {
+	public AtomText getRights() {
 		return rights;
 	}
 
 	@Override
-	public String getSubtitle() {
+	public AtomText getSubtitle() {
 		return subtitle;
 	}
 
 	@Override
-	public String getTitle() {
+	public AtomText getTitle() {
 		return title;
 	}
 
@@ -253,17 +253,17 @@ public class DefaultAtomFeed extends DefaultAtomCommon implements AtomFeed {
 	}
 
 	@Override
-	public void setRights(final String rights) {
+	public void setRights(final AtomText rights) {
 		this.rights = rights;
 	}
 
 	@Override
-	public void setSubtitle(final String subtitle) {
+	public void setSubtitle(final AtomText subtitle) {
 		this.subtitle = subtitle;
 	}
 
 	@Override
-	public void setTitle(final String title) {
+	public void setTitle(final AtomText title) {
 		this.title = title;
 	}
 
@@ -288,13 +288,13 @@ public class DefaultAtomFeed extends DefaultAtomCommon implements AtomFeed {
 			buffer.append("updated:" + updated + "\n");
 		}
 		if (title != null) {
-			buffer.append("title:" + title + "\n");
+			buffer.append("title:" + title.toString());
 		}
 		if (rights != null) {
-			buffer.append("rights:" + rights + "\n");
+			buffer.append("rights:" + rights.toString());
 		}
 		if (subtitle != null) {
-			buffer.append("subtitle:" + subtitle + "\n");
+			buffer.append("subtitle:" + subtitle.toString());
 		}
 		if (generator != null) {
 			buffer.append("generator:" + generator + "\n");

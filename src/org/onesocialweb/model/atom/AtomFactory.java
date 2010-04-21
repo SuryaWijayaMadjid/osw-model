@@ -36,6 +36,8 @@ public abstract class AtomFactory {
 	
 	public abstract AtomGenerator generator();
 	
+	public abstract AtomText text();
+	
 	public AtomGenerator generator(String name, String uri, String version) {
 		AtomGenerator generator = generator();
 		generator.setName(name);

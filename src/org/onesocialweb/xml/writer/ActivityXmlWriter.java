@@ -30,7 +30,6 @@ import org.onesocialweb.model.atom.AtomPerson;
 import org.onesocialweb.model.atom.DefaultAtomHelper;
 import org.onesocialweb.xml.namespace.Activitystreams;
 import org.onesocialweb.xml.namespace.Atom;
-import org.onesocialweb.xml.namespace.AtomThreading;
 import org.onesocialweb.xml.namespace.Onesocialweb;
 
 public class ActivityXmlWriter extends XmlWriter {
@@ -48,7 +47,7 @@ public class ActivityXmlWriter extends XmlWriter {
 		startTag(Atom.ENTRY_ELEMENT);
 		attribute("xmlns", Atom.NAMESPACE);
 		attribute("xmlns:activity", Activitystreams.NAMESPACE);
-		attribute("xmlns:thr", AtomThreading.NAMESPACE);
+		//attribute("xmlns:thr", AtomThreading.NAMESPACE);
 		endOpen();
 		
 		// Dump the atom stuff
@@ -105,7 +104,7 @@ public class ActivityXmlWriter extends XmlWriter {
 		if (entry.hasId()) text(Atom.ID_ELEMENT, entry.getId());
 		if (entry.hasPublished()) text(Atom.PUBLISHED_ELEMENT, DefaultAtomHelper.format(entry.getPublished()));
 		if (entry.hasUpdated()) text(Atom.UPDATED_ELEMENT, DefaultAtomHelper.format(entry.getUpdated()));
-		if (entry.hasTitle()) text(Atom.TITLE_ATTRIBUTE, entry.getTitle());
+		if (entry.hasTitle()) text(Atom.TITLE_ATTRIBUTE, entry.getTitle().getValue());
 		if (entry.hasAuthors()) {
 			for (AtomPerson person : entry.getAuthors()) {
 				openTag(Atom.AUTHOR_ELEMENT);

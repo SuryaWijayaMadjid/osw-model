@@ -42,7 +42,7 @@ public class XppActivityReaderTest {
             xpp.setInput(getClass().getClassLoader().getResourceAsStream("activity-feed.xml"), "UTF-8");
             CustomXppActivityReader reader = new CustomXppActivityReader();
             xpp.next();
-            feed = reader.parse(xpp, 10);
+            feed = reader.parse(xpp);
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

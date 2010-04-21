@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xml:lang="en-US" xmlns:georss="http://www.georss.org/georss" xmlns="http://www.w3.org/2005/Atom">
+  <title>Twitter / the4general</title>
+  <id>tag:twitter.com,2007:Status</id>
+  <link type="text/html" href="http://twitter.com/the4general" rel="alternate"/>
+  <link type="application/atom+xml" href="http://api.twitter.com/1/statuses/user_timeline/the4general.atom" rel="self"/>
+  <updated>2010-04-20T12:49:07+00:00</updated>
+  <subtitle>Twitter updates from Surya Wijaya Madjid / the4general.</subtitle>
+    <entry>
+      <title>the4general: @ekoadipg
+ha??</title>
+      <content type="html">the4general: @ekoadipg
+ha??</content>
+      <id>tag:twitter.com,2007:http://twitter.com/the4general/statuses/10719501433</id>
+      <published>2010-03-19T12:19:33+00:00</published>
+      <updated>2010-03-19T12:19:33+00:00</updated>
+      <link type="text/html" href="http://twitter.com/the4general/statuses/10719501433" rel="alternate"/>
+      <link type="image/jpeg" href="http://a1.twimg.com/profile_images/673240842/myself_3_years_ago_normal.jpg" rel="image"/>
+      <author>
+        <name>Surya Wijaya Madjid</name>
+      </author>
+    </entry>
+    <entry>
+      <title>the4general: the new status...</title>
+      <content type="html">the4general: the new status...</content>
+      <id>tag:twitter.com,2007:http://twitter.com/the4general/statuses/10218666889</id>
+      <published>2010-03-09T12:38:19+00:00</published>
+      <updated>2010-03-09T12:38:19+00:00</updated>
+      <link type="text/html" href="http://twitter.com/the4general/statuses/10218666889" rel="alternate"/>
+      <link type="image/jpeg" href="http://a1.twimg.com/profile_images/673240842/myself_3_years_ago_normal.jpg" rel="image"/>
+      <author>
+        <name>Surya Wijaya Madjid</name>
+      </author>
+    </entry>
+    <entry>
+      <title>the4general: posting status...</title>
+      <content type="html">the4general: posting status...</content>
+      <id>tag:twitter.com,2007:http://twitter.com/the4general/statuses/10218613745</id>
+      <published>2010-03-09T12:36:37+00:00</published>
+      <updated>2010-03-09T12:36:37+00:00</updated>
+      <link type="text/html" href="http://twitter.com/the4general/statuses/10218613745" rel="alternate"/>
+      <link type="image/jpeg" href="http://a1.twimg.com/profile_images/673240842/myself_3_years_ago_normal.jpg" rel="image"/>
+      <author>
+        <name>Surya Wijaya Madjid</name>
+      </author>
+    </entry>
+    <entry>
+      <title>the4general: from my twitter~</title>
+      <content type="html">the4general: from my twitter~</content>
+      <id>tag:twitter.com,2007:http://twitter.com/the4general/statuses/8589936400</id>
+      <published>2010-02-03T14:44:39+00:00</published>
+      <updated>2010-02-03T14:44:39+00:00</updated>
+      <link type="text/html" href="http://twitter.com/the4general/statuses/8589936400" rel="alternate"/>
+      <link type="image/jpeg" href="http://a1.twimg.com/profile_images/673240842/myself_3_years_ago_normal.jpg" rel="image"/>
+      <author>
+        <name>Surya Wijaya Madjid</name>
+      </author>
+    </entry>
+    <entry>
+      <title>the4general: @ekoadipg ahaaaa</title>
+      <content type="html">the4general: @ekoadipg ahaaaa</content>
+      <id>tag:twitter.com,2007:http://twitter.com/the4general/statuses/8587436616</id>
+      <published>2010-02-03T13:31:50+00:00</published>
+      <updated>2010-02-03T13:31:50+00:00</updated>
+      <link type="text/html" href="http://twitter.com/the4general/statuses/8587436616" rel="alternate"/>
+      <link type="image/jpeg" href="http://a1.twimg.com/profile_images/673240842/myself_3_years_ago_normal.jpg" rel="image"/>
+      <author>
+        <name>Surya Wijaya Madjid</name>
+      </author>
+    </entry>
+    <entry>
+      <title>the4general: hmmmmmmmmmmmm~</title>
+      <content type="html">the4general: hmmmmmmmmmmmm~</content>
+      <id>tag:twitter.com,2007:http://twitter.com/the4general/statuses/8587276783</id>
+      <published>2010-02-03T13:26:53+00:00</published>
+      <updated>2010-02-03T13:26:53+00:00</updated>
+      <link type="text/html" href="http://twitter.com/the4general/statuses/8587276783" rel="alternate"/>
+      <link type="image/jpeg" href="http://a1.twimg.com/profile_images/673240842/myself_3_years_ago_normal.jpg" rel="image"/>
+      <author>
+        <name>Surya Wijaya Madjid</name>
+      </author>
+    </entry>
+    <entry>
+      <title>the4general: i dunno why i cannot find my friend when i searched him using find people?!!</title>
+      <content type="html">the4general: i dunno why i cannot find my friend when i searched him using find people?!!</content>
+      <id>tag:twitter.com,2007:http://twitter.com/the4general/statuses/8587158285</id>
+      <published>2010-02-03T13:23:04+00:00</published>
+      <updated>2010-02-03T13:23:04+00:00</updated>
+      <link type="text/html" href="http://twitter.com/the4general/statuses/8587158285" rel="alternate"/>
+      <link type="image/jpeg" href="http://a1.twimg.com/profile_images/673240842/myself_3_years_ago_normal.jpg" rel="image"/>
+      <author>
+        <name>Surya Wijaya Madjid</name>
+      </author>
+    </entry>
+</feed>
