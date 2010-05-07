@@ -88,4 +88,11 @@ public abstract class AtomFactory {
 		return person;
 	}
 	
+	public AtomText text(String type, String value) {
+		AtomText text = text();
+		text.setType(type);
+		text.setValue(value);
+		return text;
+	}
+	
 }

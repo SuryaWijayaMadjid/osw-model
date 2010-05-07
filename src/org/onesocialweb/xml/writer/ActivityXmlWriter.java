@@ -27,6 +27,7 @@ import org.onesocialweb.model.atom.AtomContent;
 import org.onesocialweb.model.atom.AtomEntry;
 import org.onesocialweb.model.atom.AtomLink;
 import org.onesocialweb.model.atom.AtomPerson;
+import org.onesocialweb.model.atom.AtomText;
 import org.onesocialweb.model.atom.DefaultAtomHelper;
 import org.onesocialweb.xml.namespace.Activitystreams;
 import org.onesocialweb.xml.namespace.Atom;
@@ -104,7 +105,15 @@ public class ActivityXmlWriter extends XmlWriter {
 		if (entry.hasId()) text(Atom.ID_ELEMENT, entry.getId());
 		if (entry.hasPublished()) text(Atom.PUBLISHED_ELEMENT, DefaultAtomHelper.format(entry.getPublished()));
 		if (entry.hasUpdated()) text(Atom.UPDATED_ELEMENT, DefaultAtomHelper.format(entry.getUpdated()));
-		if (entry.hasTitle()) text(Atom.TITLE_ATTRIBUTE, entry.getTitle().getValue());
+		//if (entry.hasTitle()) text(Atom.TITLE_ELEMENT, entry.getTitle().getValue());
+		if (entry.hasTitle()) {
+			AtomText title = entry.getTitle() ;
+			startTag(Atom.TITLE_ELEMENT);
+			if (title.hasType()) attribute(Atom.TYPE_ATTRIBUTE, title.getType());
+			endOpen();
+			if (title.hasValue()) buffer.append(title.getValue());
+			closeTag(Atom.TITLE_ELEMENT);
+		}
 		if (entry.hasAuthors()) {
 			for (AtomPerson person : entry.getAuthors()) {
 				openTag(Atom.AUTHOR_ELEMENT);
@@ -136,7 +145,14 @@ public class ActivityXmlWriter extends XmlWriter {
 			endOpen();
 			if (content.hasValue()) buffer.append(content.getValue());
 			closeTag(Atom.CONTENT_ELEMENT);
-			
+		}
+		if (entry.hasSummary()) {
+			AtomText summary = entry.getSummary() ;
+			startTag(Atom.SUMMARY_ELEMENT);
+			if (summary.hasType()) attribute(Atom.TYPE_ATTRIBUTE, summary.getType());
+			endOpen();
+			if (summary.hasValue()) buffer.append(summary.getValue());
+			closeTag(Atom.SUMMARY_ELEMENT);
 		}
 		if (entry.hasLinks()) {
 			for (AtomLink link : entry.getLinks()) {

@@ -24,6 +24,8 @@ public interface AtomLink extends AtomCommon {
 	public static final String REL_VIA = "via";
 	public static final String REL_SELF = "self";
 	public static final String REL_ENCLOSURE = "enclosure";
+	public static final String REL_EDIT = "edit";
+	public static final String REL_EDIT_MEDIA = "edit-media";
 	
 	public String getHref();
 

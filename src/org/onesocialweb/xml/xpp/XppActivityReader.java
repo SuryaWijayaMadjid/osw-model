@@ -94,7 +94,7 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		return feed;
 	}
 
-	protected AtomEntry parseEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
+	public AtomEntry parseEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
 
 		// Verify that we are on the right token
 		if (!(parser.getNamespace().equals(Atom.NAMESPACE) 
@@ -203,6 +203,8 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		if (text.length() > 0) {
 			content.setValue(text);
 		}
+		else if (content.hasSrc())
+			content.setValue("");
 		else
 			return null;
 		
@@ -349,6 +351,8 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 			entry.setUpdated(parseDate(parser.nextText().trim()));
 		} else if (name.equals(Atom.TITLE_ELEMENT)) {
 			entry.setTitle(parseText(parser));
+		} else if (name.equals(Atom.SUMMARY_ELEMENT)) {
+			entry.setSummary(parseText(parser));
 		}
 	}
 	
@@ -434,7 +438,7 @@ public abstract class XppActivityReader implements XppReader<AtomFeed> {
 		if (atomEntry.hasSource()) activityEntry.setSource(atomEntry.getSource());
 		if (atomEntry.hasTitle()) activityEntry.setTitle(atomEntry.getTitle());
 		if (atomEntry.hasUpdated()) activityEntry.setUpdated(atomEntry.getUpdated());
-		
+		if (atomEntry.hasSummary()) activityEntry.setSummary(atomEntry.getSummary());
 	}
 
 	abstract protected ActivityFactory getActivityFactory();
